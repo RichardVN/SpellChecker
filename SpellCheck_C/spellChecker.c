@@ -63,27 +63,18 @@ char* nextWord(FILE* file)
 
 /**
  * Loads the contents of the file into the hash map.
- * @param file
- * @param map
+ * @param file -- the dictionary.txt file
+ * @param map -- the hash map address 
  */
 void loadDictionary(FILE* file, HashMap* map)
 {
- //Note: dictionary.txt is passed as "file" parameter
-
     // set current word to first word in file
     char * currentWord = nextWord(file);
 
-
-
-   while(currentWord != NULL)
+    while(currentWord != NULL)
     {
         // put word into map. Key = word, value = Levenshtein distance
         hashMapPut(map, currentWord, 0);
-        // hashMapPrint(map);        
-        // Test: print dictionary
-        // printf("word: %s count: %d\n" );
-        
-
         //get next word
         currentWord = nextWord(file);
     }
@@ -96,7 +87,7 @@ void loadDictionary(FILE* file, HashMap* map)
  * @param s   first string
  * @param st   second string
  * @return
- * References : https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C
+ * Reference : https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C
 **/
 #define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
 
@@ -144,12 +135,10 @@ int main(int argc, const char** argv)
     printf("Dictionary loaded in %f seconds \n", (float)timer / (float)CLOCKS_PER_SEC);
     fclose(file);
 
-
     char inputBuffer[256];
     int quit = 0;
    
     //create array of pointers to HashLink ptrs to hold suggested words
-        // usage ex.: suggested[1] = current
     HashLink *suggested[5];
     for (int i = 0; i < 5; ++i)
     {
@@ -158,11 +147,11 @@ int main(int argc, const char** argv)
 
     while (!quit)
     {
-        printf("Enter a word or \"quit\" to quit: ");
+        printf("Enter a word to spell check or enter \"quit\" to quit: ");
         scanf("%s", inputBuffer);
 
         // Implement the spell checker code here.. 
-        if (strcmp(inputBuffer, "quit") == 0)
+        if (strcmp(inputBuffer, "quit") == 0 || strcmp(inputBuffer, "Quit") == 0)  
         {
             quit = 1;
         }
@@ -178,59 +167,54 @@ int main(int argc, const char** argv)
             printf("The inputted word %s is spelled incorrectly! \nCalculating suggestions...\n", inputBuffer);
               // iterate through HashMap and update values with Levenshtein Distance for current word
               for (int i = 0; i < hashMapCapacity(map); ++i)
-                  {
-                      // create ptr to HashLink to iterate through table
-                      HashLink * current = map->table[i];
-
-                      if (current != NULL) // if current bucket is not empty
-                      {
-                          // iterate through bucket bucket
-                            while(current != NULL)
+                {
+                    // create ptr to HashLink to iterate through table
+                    HashLink * current = map->table[i];
+                    if (current != NULL) // if current bucket is not empty
+                    {
+                        // iterate through bucket bucket
+                        while(current != NULL)
+                        {
+                            // calculate levenshtein for current key vs inputBuffer
+                            // set high l distance for words of significantly different lengths
+                            int levenDistance = 15;
+                            // update levenshtein value for words of close length
+                            if (strlen(current->key) <= strlen(inputBuffer)+1 || strlen(current->key) >= strlen(inputBuffer)-1)
                             {
-                                // calculate levenshtein for current key vs inputBuffer
-                                // set high l distance for words of significantly different lengths
-                                int levenDistance = 15;
-                                // update levenshtein value for words of close length
-                                if (strlen(current->key) <= strlen(inputBuffer)+1 || strlen(current->key) >= strlen(inputBuffer)-1)
-                                {
-                                    levenDistance = levenshtein(inputBuffer, current->key);
-                                }
-                                
-                                
-                                // update value (initialized as 0), to the calculated L distance
-                                hashMapPut(map, current->key, levenDistance);
-                                // print for testing
-                                // printf("\nKey: %s, LevenDistance: %d", current->key, current->value );
-                               
-                                // compare L distance to see if lower than any L value in suggested array
-                                for (int j = 0; j < 5; ++j)
-                                {
-                                    if (suggested[j] == NULL || levenDistance < suggested[j]->value)
-                                    {
-                                        suggested[j] = current; 
-                                        break;
-
-                                    }
-                                    
-                                }
-                                // next link, eventually NULL
-                                current = current->next;
+                                levenDistance = levenshtein(inputBuffer, current->key);
                             }
-                      }
-                  }
+                                    
+                            // update value (initialized as 0) as the calculated L distance
+                            hashMapPut(map, current->key, levenDistance);
+                           
+                            // compare L distance to see if lower than any L value in suggested array
+                            for (int j = 0; j < 5; ++j)
+                            {
+                                if (suggested[j] == NULL || levenDistance < suggested[j]->value)
+                                {
+                                    suggested[j] = current; 
+                                    break;
+
+                                }
                                 
-                printf("Did you mean one of these words? \n");
+                            }
+                            // move to next link, eventually reach NULL
+                            current = current->next;
+                        }
+                    }
+                }
+                                
+                printf("Did you mean one of these following words?:");
                 for (int i = 0; i < 5; ++i)
                 {
-                    printf("%s ", suggested[i]->key);
+                    printf("\n- %s ", suggested[i]->key);
                 }
                 printf("\n\n");
         }
     
     }
-
+    // free memory from hash map
     hashMapDelete(map);
-
     return 0;
 }
 

@@ -3,7 +3,7 @@
 
 /*
  * CS 261 Data Structures
- * Assignment 5
+ * Assignment 5 - Portfolio Project
  */
 
 #define HASH_FUNCTION hashFunction1

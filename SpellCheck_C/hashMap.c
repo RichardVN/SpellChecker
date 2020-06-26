@@ -1,6 +1,6 @@
 /*
  * CS 261 Data Structures
- * Assignment 5
+ * Assignment 5 - Portfolio Project
  * Name: Richard Nguyen
  * Date: 3/10/2020
  */
@@ -12,13 +12,13 @@
 #include <assert.h>
 #include <ctype.h>
 
+// Hashing functions for string keys
 int hashFunction1(const char* key)
 {
     int r = 0;
-    // step through each char in string
+    
     for (int i = 0; key[i] != '\0'; i++)
     {
-        // add value ascii value of char to r
         r += key[i];
     }
     return r;
@@ -27,14 +27,14 @@ int hashFunction1(const char* key)
 int hashFunction2(const char* key)
 {
     int r = 0;
-    // step through each char in string 
+    
     for (int i = 0; key[i] != '\0'; i++)
     {
-        // multiply char ascii value by (index + 1)
         r += (i + 1) * key[i];
     }
     return r;
 }
+
 
 /**
  * Creates a new hash table link with a copy of the key string.
@@ -53,6 +53,7 @@ HashLink* hashLinkNew(const char* key, int value, HashLink* next)
     return link;
 }
 
+
 /**
  * Free the allocated memory for a hash table link created with hashLinkNew.
  * @param link
@@ -62,6 +63,7 @@ static void hashLinkDelete(HashLink* link)
     free(link->key);
     free(link);
 }
+
 
 /**
  * Initializes a hash table map, allocating memory for a link pointer table with
@@ -83,6 +85,7 @@ void hashMapInit(HashMap* map, int capacity)
     }
 }
 
+
 /**
  * Removes all links in the map and frees all allocated memory. You can use
  * hashLinkDelete to free the links.
@@ -95,7 +98,7 @@ void hashMapCleanUp(HashMap* map)
     // Step through each bucket of hash map
     for(int i = 0; i < map->capacity; i++)
     {
-        // set current link node to the link list heads
+        // set current link node to the linked list heads
         struct HashLink* current = map->table[i]; 
 
         // step through each node and delete node
@@ -113,7 +116,6 @@ void hashMapCleanUp(HashMap* map)
 }
 
 
-
 /**
  * Creates a hash table map, allocating memory for a link pointer table with
  * the given number of buckets.
@@ -128,6 +130,7 @@ HashMap* hashMapNew(int capacity)
     return map;
 }
 
+
 /**
  * Removes all links in the map and frees all allocated memory, including the
  * map itself.
@@ -138,6 +141,7 @@ void hashMapDelete(HashMap* map)
     hashMapCleanUp(map);
     free(map);
 }
+
 
 /**
  * Returns a pointer to the value of the link with the given key  and skip traversing as well. Returns NULL
@@ -152,7 +156,6 @@ void hashMapDelete(HashMap* map)
  */
 int* hashMapGet(HashMap* map, const char* key)
 {
-   // printf("GET\n");
     // find index of correct bucket
         int hashIndex = HASH_FUNCTION(key) % map->capacity;
     // no negative index allowed, convert to positive
@@ -179,6 +182,7 @@ int* hashMapGet(HashMap* map, const char* key)
     // no match to given key, return NULL ptr
     return NULL;
 }
+
 
 /**
  * Resizes the hash table to have a number of buckets equal to the given 
@@ -217,7 +221,7 @@ void resizeTable(HashMap* map, int capacity)
     hashMapCleanUp(map); // set map->table to NULL
     map->table = tempMap->table;
 
-    //copy attributes from tempMap
+    // copy attributes from tempMap
     map->size = tempMap->size;
     map->capacity = tempMap->capacity;
     
@@ -225,6 +229,7 @@ void resizeTable(HashMap* map, int capacity)
     free(tempMap);
     tempMap = NULL;
 }
+
 
 /**
  * Updates the given key-value pair in the hash table. If a link with the given
@@ -242,7 +247,6 @@ void resizeTable(HashMap* map, int capacity)
  */
 void hashMapPut(HashMap* map, const char* key, int value)
 {
-    // printf("PUT \n");
     // FIXME: implement
     // compute hash value to find correct bucket
     int hashIndex = HASH_FUNCTION(key) % map->capacity;
@@ -295,9 +299,6 @@ void hashMapPut(HashMap* map, const char* key, int value)
 // reference wk 38
 void hashMapRemove(HashMap* map, const char* key)
 {
-    // FIXME: implement'
-    // test print
-    // printf("hashmapremove\n");
     // compute hash value to find correct bucket
     int hashIndex = HASH_FUNCTION(key) % map->capacity;
     // no negative index allowed, convert to positive
@@ -337,6 +338,7 @@ void hashMapRemove(HashMap* map, const char* key)
     }
 }
 
+
 /**
  * Returns 1 if a link with the given key is in the table and 0 otherwise.
  * 
@@ -349,8 +351,6 @@ void hashMapRemove(HashMap* map, const char* key)
  */
 int hashMapContainsKey(HashMap* map, const char* key)
 {
-    // printf("CONTAINS\n");
-    // FIXME: implement
     // compute hash value to find correct bucket
     int hashIndex = HASH_FUNCTION(key) % map->capacity;
     // no negative index allowed, convert to positive
@@ -380,6 +380,7 @@ int hashMapContainsKey(HashMap* map, const char* key)
     return 0;// key not found, return false
 }
 
+
 /**
  * Returns the number of links in the table.
  * @param map
@@ -390,6 +391,7 @@ int hashMapSize(HashMap* map)
     // return number of links
     return map->size;
 }
+
 
 /**
  * Returns the number of buckets in the table.
@@ -402,6 +404,7 @@ int hashMapCapacity(HashMap* map)
     return map->capacity;
 }
 
+
 /**
  * Returns the number of table buckets without any links.
  * @param map
@@ -409,7 +412,6 @@ int hashMapCapacity(HashMap* map)
  */
 int hashMapEmptyBuckets(HashMap* map)
 {
-   // printf("HAS EMPTY\n");
     // empty bucket counter
     int emptyBuckets = 0;
     // iterate through each bucket
@@ -423,6 +425,7 @@ int hashMapEmptyBuckets(HashMap* map)
     }
     return emptyBuckets;
 }
+
 
 /**
  * Returns the ratio of (number of links) / (number of buckets) in the table.
@@ -438,6 +441,7 @@ float hashMapTableLoad(HashMap* map)
     return load;
 }
 
+
 /**
  * Prints all the links in each of the buckets in the table.
  * @param map
@@ -451,7 +455,7 @@ void hashMapPrint(HashMap* map)
 
   for (int i = 0; i < hashMapCapacity(map); ++i)
   {
-      // create ptr to HashLink to transverse bucket
+      // create pointer to HashLink to transverse bucket
       HashLink * current = map->table[i];
 
       if (current != NULL) // if current bucket is not empty
@@ -465,11 +469,7 @@ void hashMapPrint(HashMap* map)
                 // next link, eventually NULL
                 current = current->next;
             }
-
       }
-
   }
   printf("\n");
-
-   
 }
