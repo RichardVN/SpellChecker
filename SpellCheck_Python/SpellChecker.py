@@ -12,9 +12,9 @@ from time import perf_counter
 def levenshteinDistance(string1, string2):
     """
     Calculate the minimum edit distance between two given strings
-    :param string1: 
-    :param string2: 
-    :return: int of minimum edit distance
+    :param string1 
+    :param string2 
+    :return: editDistances[-1] -- int of minimum edit distance between strings
     """
     # smaller string is string1. Switch if not the case
     if len(string1) > len(string2):
@@ -34,7 +34,7 @@ def levenshteinDistance(string1, string2):
 def loadDictionary():
     """
     Load a dictionary txt file into program
-    :return: hash set of dictionary words
+    :return: dictionary -- hash set of dictionary words
     """
 
     dictionary = set()
@@ -52,37 +52,38 @@ def loadDictionary():
 
 
 dictionary = loadDictionary()
-userInput = input("Enter a word or type 'Quit' to quit: ")
-# user quits
-if userInput == "quit" or userInput == "Quit":
-    quit()
+while True:
+    userInput = input("Enter a word or type 'Quit' to quit: ")
+    # user quits
+    if userInput == "quit" or userInput == "Quit":
+        quit()
 
-# lists to hold the ints of 5 smallest edit distances
-suggestedDistances = []
-# list to hold the suggested word respective to the 5 shortest distances
-suggestedWords = []
+    # lists to hold the ints of 5 smallest edit distances
+    suggestedDistances = []
+    # list to hold the suggested word respective to the 5 shortest distances
+    suggestedWords = []
 
-# If word is in the dictionary and spelled correctly
-if userInput.lower() in dictionary:
-    print("The inputted word ", userInput, " is spelled correctly!")
-# word not found, calculate levenshtein distances
-else:
-    print("The word", userInput, "is not in this dictionary!")
-    for word in dictionary:
-        if len(word) - len(userInput) <= 1 and len(userInput) - len(word) <= 1:
-            wordDistance = levenshteinDistance(userInput, word)
-            # initial 5 words
-            if len(suggestedDistances) < 5:
-                suggestedDistances.append(wordDistance)
-                suggestedWords.append(word)
-            # check if edit distance is smaller than one of 5 words
-            else:
-                for i in range(5):
-                    if wordDistance < suggestedDistances[i]:
-                        suggestedDistances[i] = wordDistance
-                        suggestedWords[i] = word
-                        break
+    # If word is in the dictionary and spelled correctly
+    if userInput.lower() in dictionary:
+        print("The inputted word ", userInput, " is spelled correctly!")
+    # word not found, calculate levenshtein distances
+    else:
+        print("The word", userInput, "is not in this dictionary!")
+        for word in dictionary:
+            if len(word) - len(userInput) <= 1 and len(userInput) - len(word) <= 1:
+                wordDistance = levenshteinDistance(userInput, word)
+                # initial 5 words
+                if len(suggestedDistances) < 5:
+                    suggestedDistances.append(wordDistance)
+                    suggestedWords.append(word)
+                # check if edit distance is smaller than one of 5 words
+                else:
+                    for i in range(5):
+                        if wordDistance < suggestedDistances[i]:
+                            suggestedDistances[i] = wordDistance
+                            suggestedWords[i] = word
+                            break
 
-print("Did you mean one of the following?: ")
-for suggestedWord in suggestedWords:
-    print(" - ", suggestedWord)
+        print("Did you mean one of the following?: ")
+        for suggestedWord in suggestedWords:
+            print(" - ", suggestedWord)
