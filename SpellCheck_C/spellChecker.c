@@ -73,8 +73,7 @@ void loadDictionary(FILE* file, HashMap* map)
     // set current word to first word in file
     char * currentWord = nextWord(file);
 
-    // count for testing purposes
-    int count = 1;
+
 
    while(currentWord != NULL)
     {
@@ -82,8 +81,8 @@ void loadDictionary(FILE* file, HashMap* map)
         hashMapPut(map, currentWord, 0);
         // hashMapPrint(map);        
         // Test: print dictionary
-        printf("word: %s count: %d\n", currentWord,count );
-        count++;
+        // printf("word: %s count: %d\n" );
+        
 
         //get next word
         currentWord = nextWord(file);
@@ -97,26 +96,26 @@ void loadDictionary(FILE* file, HashMap* map)
  * @param s   first string
  * @param st   second string
  * @return
- * References : https://en.wikipedia.org/wiki/Levenshtein_distance
-                https://rosettacode.org/wiki/Levenshtein_distance
+ * References : https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C
 **/
 #define MIN3(a, b, c) ((a) < (b) ? ((a) < (c) ? (a) : (c)) : ((b) < (c) ? (b) : (c)))
 
 int levenshtein(char *s1, char *s2) {
-    unsigned int x, y, s1len, s2len;
+    unsigned int s1len, s2len, x, y, lastdiag, olddiag;
     s1len = strlen(s1);
     s2len = strlen(s2);
-    unsigned int matrix[s2len+1][s1len+1];
-    matrix[0][0] = 0;
-    for (x = 1; x <= s2len; x++)
-        matrix[x][0] = matrix[x-1][0] + 1;
+    unsigned int column[s1len+1];
     for (y = 1; y <= s1len; y++)
-        matrix[0][y] = matrix[0][y-1] + 1;
-    for (x = 1; x <= s2len; x++)
-        for (y = 1; y <= s1len; y++)
-            matrix[x][y] = MIN3(matrix[x-1][y] + 1, matrix[x][y-1] + 1, matrix[x-1][y-1] + (s1[y-1] == s2[x-1] ? 0 : 1));
-
-    return(matrix[s2len][s1len]);
+        column[y] = y;
+    for (x = 1; x <= s2len; x++) {
+        column[0] = x;
+        for (y = 1, lastdiag = x-1; y <= s1len; y++) {
+            olddiag = column[y];
+            column[y] = MIN3(column[y] + 1, column[y-1] + 1, lastdiag + (s1[y-1] == s2[x-1] ? 0 : 1));
+            lastdiag = olddiag;
+        }
+    }
+    return(column[s1len]);
 }
 
 /**
