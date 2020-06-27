@@ -1,5 +1,5 @@
 # SpellChecker
-Python program that checks spelling and offers suggestions based off Levenshtein Distance
+C program that checks spelling of word and offers suggestions based off Levenshtein Distance
 
 Author: Richard Nguyen
 
