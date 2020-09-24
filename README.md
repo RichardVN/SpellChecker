@@ -21,15 +21,17 @@ The program demonstrates knowledge of some key concepts in Data Structures in C:
 * File input stream
 
 Running the Program (C):
-1. Navigate to SpellChecker/SpellCheck_C using terminal (or other CLI)
-2. Compile the program using the terminal command: `make`
-3. Run the program using the terminal command: `./SpellChecker`
-4. (optional) Remove SpellChecker program and .o files using: `make clean`
+1. Clone this repository
+2. Navigate to SpellChecker/SpellCheck_C using terminal (or other CLI)
+3. Compile the program using the terminal command: `make`
+4. Run the program using the terminal command: `./SpellChecker`
+5. (optional) Remove SpellChecker program and .o files using: `make clean`
 
 
 Additional Notes:
 A Python version of the program is included - this was not a requirement for the class.
 
 Running the Program (Python 3):
-1. Navigate to SpellChecker/SpellCheck_Python using terminal (or other CLI)
-2. Run the program using the terminal command: `python3 SpellChecker.py`
+1. Clone this repository
+2. Navigate to SpellChecker/SpellCheck_Python using terminal (or other CLI)
+3. Run the program using the terminal command: `python3 SpellChecker.py`
