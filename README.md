@@ -13,7 +13,7 @@ Class: CS 261 (Data Structures)
 
 Description:
 This program was developed for CS 261 in OSU's Computer Science program.
-Permission is granted to publish the project as a publicly.
+Permission is granted to publish the project publicly.
 The program demonstrates knowledge of some key concepts in Data Structures in C:
 * Pointers
 * Memory Management (Allocation/Deallocation)
