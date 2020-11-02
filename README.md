@@ -1,7 +1,7 @@
 # SpellChecker
 
 ## About
-C program that checks spelling of word and offers suggestions based off Levenshtein Distance
+Description: C program that checks spelling of word and offers suggestions based off Levenshtein Distance
 
 Author: Richard Nguyen
 
@@ -11,7 +11,6 @@ School: Oregon State University
 
 Class: CS 261 (Data Structures)
 
-Description:
 This program was developed for CS 261 in OSU's Computer Science program.
 Permission is granted to publish the project publicly.
 The program demonstrates knowledge of some key concepts in Data Structures in C:
