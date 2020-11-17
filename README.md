@@ -1,4 +1,4 @@
-# SpellChecker
+# Spellchecker
 
 ## About
 Description: C program that checks spelling of word and offers suggestions based off Levenshtein Distance
@@ -23,8 +23,8 @@ The program demonstrates knowledge of some key concepts in Data Structures in C:
 
 ## Installation / Running Program in C
 ```
-$ git clone https://github.com/RichardVN/NYT-COVID-Grapher.git
-$ cd SpellChecker/SpellCheck_C
+$ git clone https://github.com/RichardVN/spellchecker.git
+$ cd spellchecker/SpellCheck_C
 $ make
 $ ./SpellChecker
 $ make clean
@@ -34,7 +34,7 @@ $ make clean
 
 ## Installation / Running Program in Python 3
 ```
-$ git clone https://github.com/RichardVN/NYT-COVID-Grapher.git
-$ cd SpellChecker/SpellCheck_Python
+$ git clone https://github.com/RichardVN/spellchecker.git
+$ cd spellchecker/SpellCheck_Python
 $ python3 SpellChecker.py
 ```
